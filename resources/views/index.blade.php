@@ -7,7 +7,7 @@
         <hr/>
     </div>
     <div class="text-center">
-        <a href="">
+        <a href="{{url('books/create')}}">
             <button class="btn btn-success mt-3 mb-4">Cadastrar</button>
         </a>
     </div>
@@ -33,7 +33,7 @@
                     <td>{{$user->name}}</td>
                     <td>{{$book->price}}</td>
                     <td>
-                        <a href="">
+                        <a href="{{url("books/$book->id")}}">
                             <button class="btn btn-dark">Visualizar</button>
                         </a>
                         <a href="">
