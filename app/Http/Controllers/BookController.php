@@ -56,7 +56,9 @@ class BookController extends Controller
         ]);
 
         if($result){
-           return redirect('books');
+            return redirect('books')->with('status', 'Cadastrado com sucesso');
+        }else{
+            return redirect('books')->with('status', 'Erro ao cadastrar!');
         }
     }
 
@@ -80,7 +82,10 @@ class BookController extends Controller
      */
     public function edit($id)
     {
-        //
+        $book = $this->objBook->find($id);
+        $users = $this->objUser->all();
+        return view('create', compact('book', 'users'));
+        //Reaproveitei o mesmo formulário de cadastro para fazer o edite
     }
 
     /**
@@ -92,7 +97,19 @@ class BookController extends Controller
      */
     public function update(BookRequest $request, $id)
     {
-        //
+        //Observação precisei usar o @csrf junto com o @method('PUT'), no form para poder fazer o update
+        //Não sei porque!?
+        $result = $this->objBook->where('id', $id)->update([
+            'title' => $request->inputTitulo,
+            'pages' => $request->inputPagina,
+            'price' => $request->inputPreco,
+            'id_user' => $request->inputAutor
+        ]);
+        if($result){
+            return redirect('books')->with('status', 'Atualizado com sucesso');
+        }else{
+            return redirect('books')->with('status', 'Erro ao atualizar!');
+        }
     }
 
     /**
@@ -103,7 +120,13 @@ class BookController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $result = $this->objBook->find($id);
+        $result->delete();
+        if($result){
+            return redirect('books')->with('status', 'Deletado com sucesso');
+        }else{
+            return redirect('books')->with('status', 'Erro ao deletar!');
+        }
     }
 
 

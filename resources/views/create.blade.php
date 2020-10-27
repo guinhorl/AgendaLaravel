@@ -3,7 +3,7 @@
 @section('content')
 
     <div class="text-center">
-        <h1>Cadastrar Book</h1>
+        <h1>@if(isset($book)) Editar Book @else Cadastrar Book @endif</h1>
         <hr/>
         <div class="text-center mt-3 mb-4">
             <a href="{{url('/books')}}" >
@@ -20,25 +20,31 @@
                 @endforeach
             </div>
         @endif
+            @if(isset($book))
+                <form name="formEditBook" id="formEditBook" method="post" action="{{"/books/$book->id"}}">
+                        @method('PUT')
+                        @csrf
+                    @else
+                        <form name="formCadBook" id="formCadBook" method="post" action="{{'/books'}}">
+                            @csrf
+                            @endif
 
-        <form  name="formCadBook" id="formCadBook" method="post" action="{{'/books'}}">
-            @csrf
             <div class="form-group">
                 <label for="inputTitulo">Título</label>
-                <input type="text" class="form-control" id="inputTitulo" name="inputTitulo" required>
+                <input type="text" class="form-control" value="{{$book->title ?? ''}}" id="inputTitulo" name="inputTitulo" required>
             </div>
             <div class="form-group">
                 <label for="inputPagina">Páginas</label>
-                <input type="text" class="form-control" id="inputPagina" name="inputPagina" required>
+                <input type="text" class="form-control" value="{{$book->pages ?? ''}}" id="inputPagina" name="inputPagina" required>
             </div>
             <div class="form-group">
                 <label for="inputPreco">Preço</label>
-                <input type="text" class="form-control" id="inputPreco" name="inputPreco" required>
+                <input type="text" class="form-control" value="{{$book->price ?? ''}}" id="inputPreco" name="inputPreco" required>
             </div>
             <div class="form-group">
                 <label for="inputAutor">Autor</label>
                 <select class="custom-select" name="inputAutor" id="inputAutor" required>
-                    <option value="">Selecione</option>
+                    <option value="{{$book->relUsers->id ?? ''}}">{{$book->relUsers->name ?? 'Selecione'}}</option>
                     @foreach($users as $user)
                     <option value="{{$user->id}}">{{$user->name}}</option>
                     @endforeach
@@ -46,7 +52,7 @@
             </div>
 
             <div class="text-center">
-                <button type="submit" class="btn btn-primary mt-3 mb-4">Enviar</button>
+                <button type="submit" class="btn btn-primary mt-3 mb-4">@if(isset($book)) Editar @else Enviar @endif</button>
             </div>
         </form>
     </div>

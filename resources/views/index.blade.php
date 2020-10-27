@@ -10,8 +10,14 @@
         <a href="{{url('books/create')}}">
             <button class="btn btn-success mt-3 mb-4">Cadastrar</button>
         </a>
+
     </div>
     <div class="col-md-8 m-auto">
+        @if (session('status'))
+            <div class="alert alert-success text-center">
+                {{ session('status') }}
+            </div>
+        @endif
         <table class="table table-striped text-center">
             <thead>
             <tr>
@@ -19,7 +25,7 @@
                 <th scope="col">Título</th>
                 <th scope="col">Autor</th>
                 <th scope="col">Preço</th>
-                <th scope="col">Ação</th>
+                <th colspan="3 ">Ação</th>
             </tr>
             </thead>
             <tbody>
@@ -36,12 +42,17 @@
                         <a href="{{url("books/$book->id")}}">
                             <button class="btn btn-dark">Visualizar</button>
                         </a>
-                        <a href="">
+                    </td>
+                    <td>
+                        <a href="{{url("books/$book->id/edit")}}">
                             <button class="btn btn-primary">Editar</button>
                         </a>
-                        <a href="">
-                            <button class="btn btn-danger">Excluir</button>
-                        </a>
+                    </td>
+                    <td>
+                        <form  method="post" action="{{url("books/$book->id")}}">
+                            @csrf
+                            <button type="submit" class="btn btn-danger">Excluir</button>
+                        </form>
                     </td>
                 </tr>
             @endforeach
