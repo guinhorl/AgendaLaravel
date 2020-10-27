@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\BookRequest;
 use App\Models\Models\ModelBook;
 use App\Models\User;
 
@@ -46,7 +46,7 @@ class BookController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(BookRequest $request)
     {
         $result = $this->objBook->create([
             'title' => $request->inputTitulo,
@@ -90,7 +90,7 @@ class BookController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(BookRequest $request, $id)
     {
         //
     }
@@ -105,4 +105,6 @@ class BookController extends Controller
     {
         //
     }
+
+
 }
